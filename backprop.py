@@ -39,32 +39,13 @@ for e in range(epochs):
 
         # TODO: Calculate error gradient in output unit
         output_error = error * (1 - output) * (output)
-        #this portion is my original - not a proper implementation but it still trains correctly ... odd
-        """# TODO: propagate errors to hidden layer
-        hidden_error = np.dot(weights_hidden_output,(hidden_activations* (1- hidden_activations))) * error
-        # TODO: Update the change in weights
-        del_w_hidden_output += output_error 
-        del_w_input_hidden += hidden_error"""
-        # correct implementation according to course
         hidden_error = np.dot(weights_hidden_output,error) * (hidden_activations * (1 - hidden_activations)) 
         del_w_hidden_output += output_error * hidden_activations
         del_w_input_hidden += hidden_error * x[:, None]
 
-    """print( del_w_hidden_output)
-    print(del_w_input_hidden)
-    print(weights_input_hidden)
-    print(weights_hidden_output)
-    break"""
     # TODO: Update weights
     weights_input_hidden += learnrate * (1/len(targets)) * del_w_input_hidden
     weights_hidden_output += learnrate * (1/len(targets)) * del_w_hidden_output
-
-    #originally I had:
-    """
-    weights_input_hidden += learnrate * len(targets) * del_w_input_hidden
-    weights_hidden_output += learnrate * len(targets) * del_w_hidden_output
-    """
-    #oddly this also resulted in a properly trained NN
 
     # Printing out the mean square error on the training set
     if e % (epochs / 10) == 0:
