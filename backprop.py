@@ -18,32 +18,30 @@ learnrate = 0.5
 n_records, n_features = features.shape
 last_loss = None
 # Initialize weights
-weights_input_hidden = np.random.normal(scale=1 / n_features ** -.5,
-size=(n_features, n_hidden))
-weights_hidden_output = np.random.normal(scale=1 / n_features ** -.5,
-size=n_hidden)
+weights_input_hidden = np.random.normal(scale=1 / n_features ** -.5, size=(n_features, n_hidden))
+weights_hidden_output = np.random.normal(scale=1 / n_features ** -.5, size=n_hidden)
 #print(features.values)
 for e in range(epochs):
     del_w_input_hidden = np.zeros(weights_input_hidden.shape)
     del_w_hidden_output = np.zeros(weights_hidden_output.shape)
     for x, y in zip(features.values, targets):
         ## Forward pass ##
-        # TODO: Calculate the output
+        # Calculate the outputi
         hidden_input = np.dot(x,weights_input_hidden)
         hidden_activations = sigmoid(hidden_input)
         output = sigmoid(np.dot(hidden_activations, weights_hidden_output))
 
         ## Backward pass ##
-        # TODO: Calculate the error
+        # Calculate the error
         error = y - output
 
-        # TODO: Calculate error gradient in output unit
+        # Calculate error gradient in output unit
         output_error = error * (1 - output) * (output)
         hidden_error = np.dot(weights_hidden_output,error) * (hidden_activations * (1 - hidden_activations)) 
         del_w_hidden_output += output_error * hidden_activations
         del_w_input_hidden += hidden_error * x[:, None]
 
-    # TODO: Update weights
+    #  Update weights
     weights_input_hidden += learnrate * (1/len(targets)) * del_w_input_hidden
     weights_hidden_output += learnrate * (1/len(targets)) * del_w_hidden_output
 
